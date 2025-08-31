@@ -10,6 +10,6 @@ import com.bne.postulaciones_service.domain.model.EstadoPostulacion;
 @NoArgsConstructor
 
 public class PostulacionResponseDto {
-    private String postulacionId;
+    private Long postulacionId;
     private EstadoPostulacion estado;
 }

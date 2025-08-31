@@ -5,11 +5,10 @@ import com.bne.postulaciones_service.application.dto.PostulacionResponseDto;
 import com.bne.postulaciones_service.domain.repository.PostulacionRepository;
 import com.bne.postulaciones_service.domain.repository.OfertaRepository;
 import com.bne.postulaciones_service.domain.model.Postulacion;
-import com.bne.postulaciones_service.shared.exception.NotFoundException;
-import com.bne.postulaciones_service.shared.exception.ConflictException;
-
-import org.springframework.stereotype.Service;
+import com.bne.postulaciones_service.shared.exceptions.NotFoundException;
+import com.bne.postulaciones_service.shared.exceptions.ConflictException;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CrearPostulacionUseCase {
@@ -17,8 +16,7 @@ public class CrearPostulacionUseCase {
     private final PostulacionRepository postulacionRepository;
     private final OfertaRepository ofertaRepository;
 
-    public CrearPostulacionUseCase(PostulacionRepository postulacionRepository,
-                                   OfertaRepository ofertaRepository) {
+    public CrearPostulacionUseCase(PostulacionRepository postulacionRepository, OfertaRepository ofertaRepository) {
         this.postulacionRepository = postulacionRepository;
         this.ofertaRepository = ofertaRepository;
     }
@@ -35,6 +33,6 @@ public class CrearPostulacionUseCase {
         Postulacion postulacion = new Postulacion(request.getUsuarioId(), oferta);
         postulacionRepository.save(postulacion);
 
-        return new PostulacionResponseDto(postulacion.getId(), postulacion.getEstado().name());
+        return new PostulacionResponseDto(postulacion.getId(), postulacion.getEstado());
     }
 }
