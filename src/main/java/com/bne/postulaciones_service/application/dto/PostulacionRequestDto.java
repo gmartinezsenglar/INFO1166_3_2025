@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 
 public class PostulacionRequestDto {
     private Long ofertaId;
-    private String usuarioId;
+    private Long usuarioId;
 }

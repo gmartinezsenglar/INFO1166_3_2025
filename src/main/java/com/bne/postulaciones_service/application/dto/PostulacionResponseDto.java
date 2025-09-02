@@ -10,6 +10,10 @@ import com.bne.postulaciones_service.domain.model.EstadoPostulacion;
 @NoArgsConstructor
 
 public class PostulacionResponseDto {
-    private Long postulacionId;
+    private Long id;
+    private Long usuarioId;
+    private Long ofertaId;
     private EstadoPostulacion estado;
+    private LocalDateTime fechaPostulacion;
+    private LocalDateTime fechaUltimaActualizacion;
 }

@@ -29,8 +29,10 @@ public class VerDetalleOfertaUseCase {
                 oferta.getId(),
                 oferta.getTitulo(),
                 oferta.getDescripcion(),
-                oferta.getFechaPublicacion().toString(),
-                oferta.getEmpresa()
+                oferta.getUbicacion(),
+                oferta.getTipoContrato(),
+                oferta.getRubro(),
+                oferta.getVigencia()
         );
     }
 }

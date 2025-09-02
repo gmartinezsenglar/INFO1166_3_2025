@@ -1,4 +1,5 @@
 package com.bne.postulaciones_service.application.dto;
+import com.bne.postulaciones_service.domain.model.PeriodoVigencia;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +11,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfertaDetalleDto {
-
     private Long id;
     private String titulo;
     private String descripcion;
-    private LocalDate fechaPublicacion;
-    private String empresa; //otros detalles mas depende del modelo
+    private String ubicacion;
+    private String tipoContrato;
+    private String rubro;
+    private PeriodoVigencia vigencia;
 }

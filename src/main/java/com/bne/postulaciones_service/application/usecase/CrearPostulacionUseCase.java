@@ -26,13 +26,22 @@ public class CrearPostulacionUseCase {
         var oferta = ofertaRepository.findById(request.getOfertaId())
                 .orElseThrow(() -> new NotFoundException("La oferta no existe."));
 
+        UsuarioPostulante postulante = new UsuarioPostulante(request.getUsuarioId());
+
         if (postulacionRepository.existsByUsuarioIdAndOfertaId(request.getUsuarioId(), oferta.getId())) {
             throw new ConflictException("El usuario ya se ha postulado a esta oferta.");
         }
 
-        Postulacion postulacion = new Postulacion(request.getUsuarioId(), oferta);
+        Postulacion postulacion = new Postulacion(postulante, oferta);
         postulacionRepository.save(postulacion);
 
-        return new PostulacionResponseDto(postulacion.getId(), postulacion.getEstado());
+        return new PostulacionResponseDto(
+                postulacion.getId(),
+                postulante.getId(),
+                oferta.getId(),
+                postulacion.getEstado(),
+                postulacion.getFechaPostulacion(),
+                postulacion.getFechaUltimaActualizacion()
+        );
     }
 }
