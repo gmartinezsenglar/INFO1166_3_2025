@@ -35,7 +35,7 @@ public class CrearPostulacionUseCase {
         }
 
         Postulacion postulacion = new Postulacion(postulante, oferta);
-        PostulacionRepository.save(postulacion);
+        postulacionRepository.save(postulacion);
 
         return new PostulacionResponseDto(
                 postulacion.getId(),
