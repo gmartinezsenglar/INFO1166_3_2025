@@ -5,6 +5,8 @@ import com.bne.postulaciones_service.application.dto.PostulacionResponseDto;
 import com.bne.postulaciones_service.domain.repository.PostulacionRepository;
 import com.bne.postulaciones_service.domain.repository.OfertaRepository;
 import com.bne.postulaciones_service.domain.model.Postulacion;
+import com.bne.postulaciones_service.domain.model.UsuarioPostulante;
+import com.bne.postulaciones_service.domain.model.OfertaEmpleo;
 import com.bne.postulaciones_service.shared.exceptions.NotFoundException;
 import com.bne.postulaciones_service.shared.exceptions.ConflictException;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,7 @@ public class CrearPostulacionUseCase {
 
     @Transactional
     public PostulacionResponseDto ejecutar(PostulacionRequestDto request) {
-        var oferta = ofertaRepository.findById(request.getOfertaId())
+        OfertaEmpleo oferta = ofertaRepository.findById(request.getOfertaId())
                 .orElseThrow(() -> new NotFoundException("La oferta no existe."));
 
         UsuarioPostulante postulante = new UsuarioPostulante(request.getUsuarioId());
@@ -33,7 +35,7 @@ public class CrearPostulacionUseCase {
         }
 
         Postulacion postulacion = new Postulacion(postulante, oferta);
-        postulacionRepository.save(postulacion);
+        PostulacionRepository.save(postulacion);
 
         return new PostulacionResponseDto(
                 postulacion.getId(),

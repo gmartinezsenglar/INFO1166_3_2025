@@ -19,6 +19,8 @@ public interface PostulacionRepository {
      */
     Optional<Postulacion> findById(Long id);
 
+    boolean existsByUsuarioIdAndOfertaId(Long usuarioId, Long ofertaId)
+
     /**
      * Obtiene todas las postulaciones asociadas a un usuario
      */
