@@ -1,8 +1,11 @@
 package com.bne.postulaciones_service.domain.model;
 
+/**
+ * Value Object que representa el estado de una postulacion.
+ */
 public enum EstadoPostulacion {
-    ACEPTADA,
     PENDIENTE,
-    RECHAZADA
-
+    ACEPTADA,
+    RECHAZADA,
+    RETIRADA
 }
