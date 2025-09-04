@@ -1,4 +1,7 @@
 package com.bne.postulaciones_service.infrastructure.repository;
 
-public class JpaOfertaRepository {
+import com.bne.postulaciones_service.domain.model.OfertaEmpleo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JpaOfertaRepository extends JpaRepository<OfertaEmpleo, Long> {
 }

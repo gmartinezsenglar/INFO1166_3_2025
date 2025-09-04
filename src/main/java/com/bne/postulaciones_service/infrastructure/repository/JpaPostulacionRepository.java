@@ -1,4 +1,7 @@
 package com.bne.postulaciones_service.infrastructure.repository;
 
-public class JpaPostulacionRepository {
+import com.bne.postulaciones_service.domain.model.Postulacion;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JpaPostulacionRepository extends JpaRepository<Postulacion, Long> {
 }
