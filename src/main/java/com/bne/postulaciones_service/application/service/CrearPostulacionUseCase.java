@@ -1,4 +1,4 @@
-package com.bne.postulaciones_service.application.usecase;
+package com.bne.postulaciones_service.application.service;
 
 import com.bne.postulaciones_service.application.dto.PostulacionRequestDto;
 import com.bne.postulaciones_service.application.dto.PostulacionResponseDto;

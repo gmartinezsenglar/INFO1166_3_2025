@@ -2,9 +2,9 @@ package com.bne.postulaciones_service.infrastructure.controller;
 import com.bne.postulaciones_service.application.dto.OfertaDto;
 import com.bne.postulaciones_service.application.dto.PostulacionRequestDto;
 import com.bne.postulaciones_service.application.dto.PostulacionResponseDto;
-import com.bne.postulaciones_service.application.usecase.BuscarOfertasUseCase;
-import com.bne.postulaciones_service.application.usecase.CrearPostulacionUseCase;
-import com.bne.postulaciones_service.application.usecase.VerDetalleOfertaUseCase;
+import com.bne.postulaciones_service.application.service.BuscarOfertasUseCase;
+import com.bne.postulaciones_service.application.service.CrearPostulacionUseCase;
+import com.bne.postulaciones_service.application.service.VerDetalleOfertaUseCase;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
