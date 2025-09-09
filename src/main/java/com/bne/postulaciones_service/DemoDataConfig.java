@@ -1,4 +1,4 @@
-package com.bne.postulaciones_service;
+/* package com.bne.postulaciones_service;
 
 import com.bne.postulaciones_service.domain.model.Postulacion;
 import com.bne.postulaciones_service.domain.model.OfertaEmpleo;
@@ -63,4 +63,4 @@ public class DemoDataConfig {
             System.out.println("\n===== FIN PRUEBAS DE PERSISTENCIA =====");
         };
     }
-}
+}*/
