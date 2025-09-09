@@ -1,7 +1,7 @@
 package com.bne.postulaciones_service;
 
 import com.bne.postulaciones_service.domain.model.*;
-import com.bne.postulaciones_service.infrastructure.repository.*;
+import com.bne.postulaciones_service.domain.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,67 +12,49 @@ import java.time.LocalDate;
 public class DemoDataConfig {
 
     @Bean
-    CommandLineRunner seed(JpaUsuarioRepository usuarioRepo,
-                           JpaEmpresaRepository empresaRepo,
-                           JpaOfertaBNERepository ofertaBNERepo,
-                           JpaPostulacionRepository postulacionRepo) {
+    CommandLineRunner seed(
+            UsuarioRepository usuarios,
+            EmpresaRepository empresas,
+            OfertaBNERepository ofertasBNE,
+            PostulacionRepository postulaciones
+    ) {
         return args -> {
-            // Usuario
-            var usuario = Usuario.builder()
-                    .nombres("Cristian")
-                    .apellidos("Tester")
-                    .infoAcademicaCompleta(true)
-                    .experienciaLaboralCompleta(false)
+            // usuario
+            Usuario u = Usuario.builder()
+                    .nombres("Cristian").apellidos("Alumno")
+                    .infoAcademicaCompleta(true).experienciaLaboralCompleta(false)
                     .build();
-            usuario = usuarioRepo.save(usuario);
+            u = usuarios.save(u);
 
-            // Empresa
-            var empresa = Empresa.builder()
-                    .nombre("BNE Labs")
-                    .actividadEconomica("Tecnología")
-                    .descripcion("Empresa de prueba")
-                    .logo(null)
+            // empresa
+            Empresa e = Empresa.builder()
+                    .nombre("Acme Ltda").actividadEconomica("Software").descripcion("Empresa de TI").logo(null)
                     .build();
-            empresa = empresaRepo.save(empresa);
+            e = empresas.save(e);
 
-            // Oferta BNE
-            var oferta = OfertaBNE.builder()
-                    .empresa(empresa)
-                    .nombre("Desarrollador Java")
-                    .vacantesDisponibles(1)
-                    .descripcion("Remoto, tiempo completo")
-                    .region("RM")
-                    .ciudad("Santiago")
-                    .pagaMinima(1000000)
-                    .pagaMaxima(1500000)
-                    .tipoJornada("Completa")
-                    .fechaInicio(LocalDate.now())
-                    .fechaTermino(LocalDate.now().plusDays(30))
-                    .requiereExperiencia(false)
-                    .requiereNivelEducacional(false)
-                    .tipoNivelEducacional(null)
-                    .tipoContrato("Indefinido")
-                    .nivelCargo("Junior")
-                    .origenOferta("BNE")
-                    .practicaProfesional(false)
-                    .ley21015(false)
+            // oferta BNE
+            OfertaBNE o = OfertaBNE.builder()
+                    .empresa(e).nombre("Desarrollador Java").vacantesDisponibles(2)
+                    .descripcion("Remoto, tiempo completo").region("RM").ciudad("Santiago")
+                    .pagaMinima(1000).pagaMaxima(1500).tipoJornada("Completa")
+                    .fechaInicio(LocalDate.now()).fechaTermino(LocalDate.now().plusDays(30))
+                    .requiereExperiencia(true).requiereNivelEducacional(false)
+                    .tipoNivelEducacional(null).tipoContrato("Indefinido")
+                    .nivelCargo("Junior").origenOferta("BNE").practicaProfesional(false).ley21015(false)
                     .build();
-            oferta = ofertaBNERepo.save(oferta);
+            o = ofertasBNE.save(o);
 
-            // Postulación (usa OfertaId embebido)
-            var ofertaId = new OfertaId(oferta.getId(), OfertaId.Origen.BNE);
-            var postulacion = Postulacion.builder()
-                    .ofertaId(ofertaId)
-                    .empresaId(empresa.getId())
-                    .usuarioId(usuario.getId())
+            // postulacion
+            Postulacion p = Postulacion.builder()
+                    .ofertaId(new OfertaId(o.getId(), OfertaId.Origen.BNE))
+                    .empresaId(e.getId())
+                    .usuarioId(u.getId())
                     .fechaPostulacion(LocalDate.now())
                     .estado(Postulacion.EstadoPostulacion.ENVIADA)
                     .build();
-            postulacionRepo.save(postulacion);
+            postulaciones.save(p);
 
-            System.out.println("Seed OK: usuario=" + usuario.getId() +
-                    ", empresa=" + empresa.getId() +
-                    ", oferta=" + oferta.getId());
+            System.out.println("Seed OK: usuario=" + u.getId() + ", empresa=" + e.getId() + ", oferta=" + o.getId());
         };
     }
 }
