@@ -33,7 +33,8 @@ public class SecurityConfig {
                                 "/swagger", "/swagger/**", "/swagger-ui/**", "/v3/api-docs/**",
                                 // Infra abierta
                                 "/h2-console/**",
-                                "/actuator/health"
+                                "/actuator/health",
+                                "/dev/**" //probar sin el tocen
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
