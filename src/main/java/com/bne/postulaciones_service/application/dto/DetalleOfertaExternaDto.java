@@ -1,19 +1,15 @@
 package com.bne.postulaciones_service.application.dto;
 
-import com.bne.postulaciones_service.domain.model.vo.PeriodoVigencia;
-import com.bne.postulaciones_service.domain.model.vo.RangoSalarial;
-import com.bne.postulaciones_service.domain.model.vo.Ubicacion;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@Builder
-public class OfertaDetalleDto {
+@NoArgsConstructor
 
+public class DetalleOfertaExternaDto {
     private Long id;
-    private Long empresaId;
     private String nombreEmpresa;
     private String nombre;
     private String descripcion;
@@ -24,14 +20,14 @@ public class OfertaDetalleDto {
     private int maximoSalarial;
     private LocalDate fechaInicioVigencia;
     private LocalDate fechaTerminoVigencia;
+    private String nombrePublicador;
     private boolean requiereExperiencia;
-    private boolean requiereNivelEducacional;
     private String tipoNivelEducacional;
     private String tipoContrato;
     private String tipoJornada;
     private String nivelCargo;
-    private String origenOferta;
-    private boolean practicaProfesional;
+    private String Origen;
+    private String urlFuente;
     private boolean vigente;
     private boolean tieneVacantesDisponibles;
 }

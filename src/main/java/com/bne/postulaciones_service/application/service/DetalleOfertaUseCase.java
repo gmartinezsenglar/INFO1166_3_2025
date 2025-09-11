@@ -1,6 +1,5 @@
 package com.bne.postulaciones_service.application.service;
 
-import com.bne.postulaciones_service.application.dto.DetalleOfertaBneDto;
 import com.bne.postulaciones_service.application.dto.DetalleOfertaExternaDto;
 import com.bne.postulaciones_service.application.exception.NotFoundException;
 import com.bne.postulaciones_service.domain.model.OfertaBNE;
