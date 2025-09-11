@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostulacionRequestDto {
     private Long usuarioId;
-    private Long ofertaId;
+    private Long empresaId;
 }

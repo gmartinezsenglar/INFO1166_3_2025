@@ -6,7 +6,7 @@ import com.bne.postulaciones_service.application.exception.NotFoundException;
 import com.bne.postulaciones_service.domain.repository.OfertaFilter;
 import com.bne.postulaciones_service.domain.repository.OfertaBNERepository;
 import com.bne.postulaciones_service.domain.repository.OfertaExternaRepository;
-import com.bne.postulaciones_service.domain.model.OfertaId;
+import com.bne.postulaciones_service.domain.model.vo.OfertaId;
 import com.bne.postulaciones_service.domain.model.OfertaBNE;
 import com.bne.postulaciones_service.domain.model.OfertaExterna;
 import org.springframework.stereotype.Service;
