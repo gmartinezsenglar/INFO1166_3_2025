@@ -121,6 +121,7 @@ public class DetalleOfertaUseCase {
                     oferta.getTipoContrato(),
                     oferta.getTipoJornada(),
                     oferta.getNivelCargo(),
+                    oferta.getOrigenOferta(),
                     urlFuente,
                     oferta.estaVigente(),
                     oferta.tieneVacantesDisponibles()
