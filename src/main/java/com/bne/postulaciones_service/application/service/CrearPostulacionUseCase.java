@@ -38,18 +38,22 @@ public class CrearPostulacionUseCase {
 
         Postulacion postulacion;
 
-        switch (request.getOfertaId().getOrigen()) {
-            case BNE -> {
-                OfertaBNE oferta = ofertaBNERepository.findById(request.getOfertaId().getValor())
-                        .orElseThrow(() -> new NotFoundException("La oferta BNE no existe"));
-                postulacion = postulacionDomainService.crearPostulacion(usuario, oferta);
+        try {
+            switch (request.getOfertaId().getOrigen()) {
+                case BNE -> {
+                    OfertaBNE oferta = ofertaBNERepository.findById(request.getOfertaId().getValor())
+                            .orElseThrow(() -> new NotFoundException("La oferta BNE no existe"));
+                    postulacion = postulacionDomainService.crearPostulacion(usuario, oferta);
+                }
+                case EXTERNA -> {
+                    OfertaExterna oferta = ofertaExternaRepository.findById(request.getOfertaId().getValor())
+                            .orElseThrow(() -> new NotFoundException("La oferta externa no existe"));
+                    postulacion = postulacionDomainService.crearPostulacionExterna(usuario, oferta);
+                }
+                default -> throw new ConflictException("Origen de oferta no soportado.");
             }
-            case EXTERNA -> {
-                 OfertaExterna oferta = ofertaExternaRepository.findById(request.getOfertaId().getValor())
-                        .orElseThrow(() -> new NotFoundException("La oferta externa no existe"));
-                postulacion = postulacionDomainService.crearPostulacionExterna(usuario, oferta);
-            }
-            default -> throw new ConflictException("Origen de oferta no soportado.");
+        } catch (IllegalStateException e) {
+            throw new ConflictException(e.getMessage());
         }
 
         postulacionRepository.save(postulacion);
