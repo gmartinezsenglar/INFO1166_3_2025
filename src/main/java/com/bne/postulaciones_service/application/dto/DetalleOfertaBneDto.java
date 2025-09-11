@@ -30,7 +30,6 @@ public class DetalleOfertaBneDto {
     private String tipoContrato;
     private String tipoJornada;
     private String nivelCargo;
-    private String origenOferta;
     private boolean practicaProfesional;
     private boolean vigente;
     private boolean tieneVacantesDisponibles;
