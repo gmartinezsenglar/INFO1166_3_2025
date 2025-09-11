@@ -1,6 +1,6 @@
 package com.bne.postulaciones_service.application.service;
 
-import com.bne.postulaciones_service.application.dto.DetalleOfertaExternaDto;
+import com.bne.postulaciones_service.application.dto.*;
 import com.bne.postulaciones_service.application.exception.NotFoundException;
 import com.bne.postulaciones_service.domain.model.OfertaBNE;
 import com.bne.postulaciones_service.domain.model.OfertaExterna;
@@ -73,7 +73,6 @@ public class DetalleOfertaUseCase {
                     oferta.getTipoContrato(),
                     oferta.getTipoJornada(),
                     oferta.getNivelCargo(),
-                    oferta.getOrigenOferta(),
                     oferta.esPracticaProfesional(),
                     oferta.estaVigente(),
                     oferta.tieneVacantesDisponibles()
@@ -122,7 +121,6 @@ public class DetalleOfertaUseCase {
                     oferta.getTipoContrato(),
                     oferta.getTipoJornada(),
                     oferta.getNivelCargo(),
-                    oferta.getOrigenOferta(),
                     urlFuente,
                     oferta.estaVigente(),
                     oferta.tieneVacantesDisponibles()
