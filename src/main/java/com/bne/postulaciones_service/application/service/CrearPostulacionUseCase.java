@@ -1,62 +1,66 @@
 package com.bne.postulaciones_service.application.service;
-import com.bne.postulaciones_service.domain.model.OfertaEmpleo;
-import com.bne.postulaciones_service.domain.model.Postulacion;
-import com.bne.postulaciones_service.domain.model.Usuario;
+
 import com.bne.postulaciones_service.application.dto.PostulacionRequestDto;
 import com.bne.postulaciones_service.application.dto.PostulacionResponseDto;
-import com.bne.postulaciones_service.domain.repository.PostulacionRepository;
-import com.bne.postulaciones_service.domain.repository.OfertaRepository;
-import com.bne.postulaciones_service.domain.repository.UsuarioRepository;
-import com.bne.postulaciones_service.application.exception.NotFoundException;
 import com.bne.postulaciones_service.application.exception.ConflictException;
+import com.bne.postulaciones_service.application.exception.NotFoundException;
+import com.bne.postulaciones_service.domain.model.*;
+import com.bne.postulaciones_service.domain.repository.*;
+import com.bne.postulaciones_service.domain.service.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CrearPostulacionUseCase {
 
     private final PostulacionRepository postulacionRepository;
-    private final OfertaRepository ofertaRepository;
     private final UsuarioRepository usuarioRepository;
+    private final OfertaBNERepository ofertaBNERepository;
+    private final OfertaExternaRepository ofertaExternaRepository;
+    private final PostulacionDomainService postulacionDomainService;
 
-    public CrearPostulacionUseCase(
-            PostulacionRepository postulacionRepository,
-            OfertaRepository ofertaRepository,
-            UsuarioRepository usuarioRepository
-    ) {
+    public CrearPostulacionUseCase(PostulacionRepository postulacionRepository,
+                                   UsuarioRepository usuarioRepository,
+                                   OfertaBNERepository ofertaBNERepository,
+                                   OfertaExternaRepository ofertaExternaRepository,
+                                   PostulacionDomainService postulacionDomainService) {
         this.postulacionRepository = postulacionRepository;
-        this.ofertaRepository = ofertaRepository;
         this.usuarioRepository = usuarioRepository;
+        this.ofertaBNERepository = ofertaBNERepository;
+        this.ofertaExternaRepository = ofertaExternaRepository;
+        this.postulacionDomainService = postulacionDomainService;
     }
 
-    @Transactional
     public PostulacionResponseDto ejecutar(PostulacionRequestDto request) {
-        OfertaEmpleo oferta = ofertaRepository.findById(request.getOfertaId())
-                .orElseThrow(() -> new NotFoundException("La oferta no existe."));
-
-        Usuario postulante = usuarioRepository.findById(request.getUsuarioId())
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new NotFoundException("El usuario no existe."));
 
-        if (oferta.getEmpresa() == null) {
-            throw new ConflictException("La oferta no tiene empresa asociada.");
+        Postulacion postulacion;
+
+        switch (request.getOfertaId().getOrigen()) {
+            case BNE -> {
+                OfertaBNE oferta = ofertaBNERepository.findById(request.getOfertaId().getValor())
+                        .orElseThrow(() -> new NotFoundException("La oferta BNE no existe"));
+                postulacion = postulacionDomainService.crearPostulacion(usuario, oferta);
+            }
+            case EXTERNA -> {
+                 OfertaExterna oferta = ofertaExternaRepository.findById(request.getOfertaId().getValor())
+                        .orElseThrow(() -> new NotFoundException("La oferta externa no existe"));
+                postulacion = postulacionDomainService.crearPostulacionExterna(usuario, oferta);
+            }
+            default -> throw new ConflictException("Origen de oferta no soportado.");
         }
 
-        oferta.validarDisponibilidadParaPostulacion();
-
-        if (postulacionRepository.existsByUsuarioIdAndOfertaId(postulante.getId(), oferta.getId())) {
-            throw new ConflictException("El usuario ya se ha postulado a esta oferta.");
-        }
-
-        Postulacion postulacion = new Postulacion(postulante, oferta);
         postulacionRepository.save(postulacion);
 
         return new PostulacionResponseDto(
                 postulacion.getId(),
-                postulante.getId(),
-                oferta.getId(),
-                postulacion.getEstado(),
+                postulacion.getUsuarioId(),
+                postulacion.getEmpresa(),
+                postulacion.getOfertaId(),
                 postulacion.getFechaPostulacion(),
-                postulacion.getFechaUltimaActualizacion()
+                postulacion.getEstado().name()
         );
     }
 }
