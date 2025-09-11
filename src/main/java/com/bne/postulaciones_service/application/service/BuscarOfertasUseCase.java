@@ -1,7 +1,6 @@
 package com.bne.postulaciones_service.application.service;
 
 import com.bne.postulaciones_service.application.dto.OfertaDto;
-import com.bne.postulaciones_service.domain.model.OfertaEmpleo;
 import com.bne.postulaciones_service.domain.repository.OfertaRepository;
 import com.bne.postulaciones_service.shared.exceptions.NotFoundException;
 import java.util.List;
