@@ -1,5 +1,6 @@
 package com.bne.postulaciones_service.domain.model;
 
+import com.bne.postulaciones_service.domain.model.vo.OfertaId;
 import jakarta.persistence.*;
 import lombok.*;
 
