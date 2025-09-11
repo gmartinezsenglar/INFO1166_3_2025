@@ -1,4 +1,4 @@
-package com.bne.postulaciones_service.domain.model;
+package com.bne.postulaciones_service.domain.model.vo;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;

@@ -1,9 +1,10 @@
 package com.bne.postulaciones_service.domain.model;
 
+import com.bne.postulaciones_service.domain.model.vo.PeriodoVigencia;
+import com.bne.postulaciones_service.domain.model.vo.RangoSalarial;
+import com.bne.postulaciones_service.domain.model.vo.Ubicacion;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "ofertas_externas")
@@ -12,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class OfertaExterna {
 
     @Id
@@ -30,23 +30,16 @@ public class OfertaExterna {
 
     private String descripcion;
 
-    private String region;
+    @Embedded
+    private Ubicacion ubicacion;
 
-    private String ciudad;
+    @Embedded
+    private RangoSalarial rangoSalarial;
+
+    @Embedded
+    private PeriodoVigencia periodoVigencia;
 
     private String nombrePublicador;
-
-    @Column(name = "paga_minima")
-    private Integer pagaMinima;
-
-    @Column(name = "paga_maxima")
-    private Integer pagaMaxima;
-
-    private String tipoJornada;
-
-    private LocalDate fechaInicio;
-
-    private LocalDate fechaTermino;
 
     private boolean requiereExperiencia;
 
@@ -55,6 +48,8 @@ public class OfertaExterna {
     private String tipoNivelEducacional;
 
     private String tipoContrato;
+
+    private String tipoJornada;
 
     private String nivelCargo;
 
@@ -66,4 +61,17 @@ public class OfertaExterna {
     @Column(name = "url_fuente")
     private String urlFuente;
 
+    // --- Métodos de comportamiento útiles ---
+
+    public boolean estaVigente() {
+        return periodoVigencia != null && periodoVigencia.estaVigente();
+    }
+
+    public boolean tieneVacantesDisponibles() {
+        return vacantesDisponibles != null && vacantesDisponibles > 0;
+    }
+
+    public boolean tieneUrlValida() {
+        return urlFuente != null && (urlFuente.startsWith("http://") || urlFuente.startsWith("https://"));
+    }
 }
