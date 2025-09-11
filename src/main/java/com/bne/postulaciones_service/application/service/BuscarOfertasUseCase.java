@@ -64,7 +64,7 @@ public class BuscarOfertasUseCase {
     private OfertaDto mapToDto(OfertaBNE bne) {
         return new OfertaDto(
                 bne.getId(),
-                bne.getOrigenOferta(),
+                OfertaId.Origen.BNE.name(),
                 bne.getNombre(),
                 bne.getDescripcion(),
                 bne.getTipoContrato(),
@@ -76,7 +76,7 @@ public class BuscarOfertasUseCase {
     private OfertaDto mapToDto(OfertaExterna externa) {
         return new OfertaDto(
                 externa.getId(),
-                externa.getOrigenOferta(),
+                OfertaId.Origen.EXTERNA.name(),
                 externa.getNombre(),
                 externa.getDescripcion(),
                 externa.getTipoContrato(),
