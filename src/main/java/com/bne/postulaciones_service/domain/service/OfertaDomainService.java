@@ -15,19 +15,19 @@ public class OfertaDomainService{
     public boolean esPublicable(OfertaExterna oferta){
         return oferta.datosBasicosCompletos() &&
                oferta.rangoSalarialValido() &&
-               oferta.urlFuenteValida() &&
+               oferta.tieneUrlValida() &&
                oferta.estaVigente();
     }
 
     public OfertaCerrada cerrarOfertaSiCorresponde(OfertaBNE oferta) {
-        if (!oferta.estaVigente() || !oferta.tieneVacantes()) {
+        if (!oferta.estaVigente() || !oferta.tieneVacantesDisponibles()) {
             return new OfertaCerrada(oferta.getId());
         }
         return null;
     }
 
     public OfertaCerrada cerrarOfertaSiCorresponde(OfertaExterna oferta) {
-        if (!oferta.estaVigente() || !oferta.tieneVacantes()) {
+        if (!oferta.estaVigente() || !oferta.tieneVacantesDisponibles()) {
             return new OfertaCerrada(oferta.getId());
         }
         return null;

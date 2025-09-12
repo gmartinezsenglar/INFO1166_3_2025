@@ -5,6 +5,8 @@ import com.bne.postulaciones_service.domain.model.vo.RangoSalarial;
 import com.bne.postulaciones_service.domain.model.vo.Ubicacion;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
