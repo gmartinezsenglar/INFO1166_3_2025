@@ -1,5 +1,6 @@
 package com.bne.postulaciones_service.domain.model;
 
+import com.bne.postulaciones_service.domain.model.vo.OfertaId;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,5 +36,29 @@ public class Postulacion {
 
     public enum EstadoPostulacion {
         ENVIADA, ACEPTADA, RECHAZADA, RETIRADA
+    }
+
+    public void enviar() {
+        this.estado=EstadoPostulacion.ENVIADA;
+        this.fechaPostulacion=LocalDate.now();
+    }
+
+    public void cambiarEstado(EstadoPostulacion nuevoEstado) {
+        if (this.estado == EstadoPostulacion.RETIRADA) {
+            throw new IllegalStateException("No se puede modificar una postulación retirada.");
+        }
+        this.estado=nuevoEstado;
+    }
+
+    public boolean fueAceptada() {
+        return this.estado == EstadoPostulacion.ACEPTADA;
+    }
+
+    public boolean fueRechazada() {
+        return this.estado == EstadoPostulacion.RECHAZADA;
+    }
+
+    public boolean perteneceAUsuario(Long usuarioId) {
+        return this.usuarioId.equals(usuarioId);
     }
 }

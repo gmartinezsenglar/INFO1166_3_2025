@@ -1,9 +1,10 @@
 package com.bne.postulaciones_service.domain.model;
 
+import com.bne.postulaciones_service.domain.model.vo.PeriodoVigencia;
+import com.bne.postulaciones_service.domain.model.vo.RangoSalarial;
+import com.bne.postulaciones_service.domain.model.vo.Ubicacion;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "ofertas_bne")
@@ -29,21 +30,14 @@ public class OfertaBNE {
 
     private String descripcion;
 
-    private String region;
+    @Embedded
+    private Ubicacion ubicacion;
 
-    private String ciudad;
+    @Embedded
+    private RangoSalarial rangoSalarial;
 
-    @Column(name = "paga_minima")
-    private Integer pagaMinima;
-
-    @Column(name = "paga_maxima")
-    private Integer pagaMaxima;
-
-    private String tipoJornada;
-
-    private LocalDate fechaInicio;
-
-    private LocalDate fechaTermino;
+    @Embedded
+    private PeriodoVigencia periodoVigencia;
 
     private boolean requiereExperiencia;
 
@@ -52,6 +46,8 @@ public class OfertaBNE {
     private String tipoNivelEducacional;
 
     private String tipoContrato;
+
+    private String tipoJornada;
 
     private String nivelCargo;
 
@@ -63,4 +59,49 @@ public class OfertaBNE {
     @Column(name = "ley_21015")
     private boolean ley21015;
 
+    // --- Métodos de comportamiento útiles ---
+
+    public boolean estaVigente() {
+        return periodoVigencia != null && periodoVigencia.estaVigente();
+    }
+
+    public boolean tieneVacantesDisponibles() {
+        return vacantesDisponibles != null && vacantesDisponibles > 0;
+    }
+
+    public void reducirVacante() {
+        if (!tieneVacantes()) {
+            throw new IllegalStateException("No hay vacantes disponibles.");
+        }
+        this.vacantesDisponibles--;
+    }
+
+    public boolean esPracticaProfesional() {
+        return practicaProfesional;
+    }
+
+    public boolean rangoSalarialValido() {
+        if (pagaMinima == null || pagaMaxima == null) return true;
+        return pagaMinima <= pagaMaxima;
+    }
+
+    public boolean requiereExperiencia() {
+        return this.requiereExperiencia;
+    }
+
+    public boolean requiereNivelEducacional() {
+        return this.requiereNivelEducacional;
+    }
+
+    public boolean fechasValidas() {
+        if (fechaInicio == null || fechaTermino == null) return true;
+        return !fechaInicio.isAfter(fechaTermino);
+    }
+    
+    public boolean datosBasicosCompletos() {
+        return nombre != null && !nombre.isBlank()
+        && descripcion != null && !descripcion.isBlank()
+        && region != null && !region.isBlank()
+        && ciudad != null && !ciudad.isBlank();
+    }
 }

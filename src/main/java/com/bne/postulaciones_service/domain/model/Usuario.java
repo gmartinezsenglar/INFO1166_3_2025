@@ -27,4 +27,21 @@ public class Usuario {
     @Column(name = "experiencia_laboral_completa")
     private boolean experienciaLaboralCompleta;
 
+    public boolean tieneInfoAcademica() {
+        return this.infoAcademicaCompleta;
+    }
+
+    public boolean tieneExperienciaLaboral() {
+        return this.experienciaLaboralCompleta;
+    }
+
+    public boolean perfilCompleto() {
+        return tieneInfoAcademica() && tieneExperienciaLaboral();
+    }
+
+    public String nombreCompleto() {
+        return (nombres != null ? nombres : "") + " " +
+               (apellidos != null ? apellidos : "");
+    }
+
 }
