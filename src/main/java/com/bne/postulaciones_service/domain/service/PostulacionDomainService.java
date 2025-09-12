@@ -2,6 +2,8 @@ package com.bne.postulaciones_service.domain.service;
 
 import com.bne.postulaciones_service.domain.model.*;
 import com.bne.postulaciones_service.domain.event.*;
+import com.bne.postulaciones_service.domain.model.vo.OfertaId;
+
 
 import java.time.LocalDate;
 
@@ -14,13 +16,13 @@ public class PostulacionDomainService {
         if (!oferta.estaVigente()) {
             throw new IllegalStateException("La oferta no está vigente.");
         }
-        if (!oferta.tieneVacantes()) {
+        if (!oferta.tieneVacantesDisponibles()) {
             throw new IllegalStateException("La oferta no tiene vacantes disponibles.");
         }
         oferta.reducirVacante();
 
         Postulacion postulacion = Postulacion.builder()
-                .ofertaId(new OfertaId(oferta.getId()))
+                .ofertaId(new OfertaId(oferta.getId(), OfertaId.Origen.BNE))
                 .empresaId(oferta.getEmpresa().getId())
                 .usuarioId(usuario.getId())
                 .fechaPostulacion(LocalDate.now())
@@ -43,14 +45,14 @@ public class PostulacionDomainService {
         if (!oferta.estaVigente()) {
             throw new IllegalStateException("La oferta no está vigente.");
         }
-        if (!oferta.tieneVacantes()) {
+        if (!oferta.tieneVacantesDisponibles()) {
             throw new IllegalStateException("La oferta no tiene vacantes disponibles.");
         }
 
         oferta.reducirVacante();
 
         Postulacion postulacion = Postulacion.builder()
-                .ofertaId(new OfertaId(oferta.getId()))
+                .ofertaId(new OfertaId(oferta.getId(), OfertaId.Origen.EXTERNA))
                 .empresaId(oferta.getEmpresa().getId())
                 .usuarioId(usuario.getId())
                 .fechaPostulacion(LocalDate.now())
@@ -79,7 +81,7 @@ public class PostulacionDomainService {
         PostulacionCancelada evento = new PostulacionCancelada(
                 postulacion.getId(),
                 usuario.getId(),
-                postulacion.getOfertaId().getValue()
+                postulacion.getOfertaId().getValor()
         );
         // publicar evento
     }

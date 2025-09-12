@@ -19,7 +19,7 @@ public class ListarPostulacionesPorUsuarioUseCase {
 
     public List<Postulacion> ejecutar(String usuarioId) {
         // Validar que el usuario existe
-        if (!usuarioRepository.findById(usuarioId)) {
+        if (!usuarioRepository.findById(Long.valueOf(usuarioId))) {
             throw new NotFoundException("Usuario no encontrado");
         }
 

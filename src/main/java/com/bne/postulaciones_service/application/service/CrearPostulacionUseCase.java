@@ -61,7 +61,7 @@ public class CrearPostulacionUseCase {
         return new PostulacionResponseDto(
                 postulacion.getId(),
                 postulacion.getUsuarioId(),
-                postulacion.getEmpresa(),
+                postulacion.getEmpresaId(),
                 postulacion.getOfertaId(),
                 postulacion.getFechaPostulacion(),
                 postulacion.getEstado().name()
