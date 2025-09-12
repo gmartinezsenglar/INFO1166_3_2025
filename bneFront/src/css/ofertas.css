@@ -1,0 +1,210 @@
+/* ====== Paleta y base ====== */
+:root{
+  --primary: #2563eb;          /* azul acciones */
+  --primary-600:#1d4ed8;
+  --primary-50:#e8f0fe;        /* celeste muy claro */
+  --text:#111827;              /* gris oscuro */
+  --muted:#6b7280;             /* gris texto secundario */
+  --border:#e5e7eb;            /* gris borde */
+  --panel:#f3f6fb;             /* fondo sidebar */
+  --white:#ffffff;
+}
+
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--text);
+  background:var(--white);
+}
+
+/* ====== Tabs (Ofertas BNE / Externas) opcional ====== */
+.tabs{
+  display:flex; gap:8px; margin:12px 16px;
+}
+.tab{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 14px;
+  font-weight:600;
+  color:#1f2937;
+  cursor:pointer;
+}
+.tab--active{
+  background:var(--primary);
+  color:#fff;
+  border-color:var(--primary);
+}
+
+/* ====== Layout ====== */
+.ofertas-layout{
+  display:grid;
+  grid-template-columns: 300px 1fr;
+  gap:20px;
+  padding:16px;
+}
+@media (max-width: 980px){
+  .ofertas-layout{ grid-template-columns: 1fr; }
+}
+
+/* ====== Sidebar / filtros ====== */
+.ofertas-sidebar{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+}
+.ofertas-sidebar__header{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:8px;
+}
+.ofertas-sidebar__title{
+  margin:0; font-size:16px; font-weight:700; color:#111827;
+}
+.ofertas-reset-btn{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:6px 10px;
+  font-size:13px;
+  cursor:pointer;
+}
+.ofertas-reset-btn:hover{ border-color:#cfd3d8 }
+
+.ofertas-field{ margin-top:14px; }
+.ofertas-label{
+  display:block; font-size:13px; color:#374151; margin-bottom:6px;
+}
+.ofertas-input, .ofertas-select{
+  width:100%;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:14px;
+}
+.ofertas-input::placeholder{ color:#9ca3af }
+.ofertas-select:disabled{
+  background:#f9fafb; color:#9ca3af; cursor:not-allowed;
+}
+.ofertas-row{ display:flex; gap:8px; }
+
+.ofertas-checkbox{
+  appearance:none; width:16px; height:16px; margin-right:8px;
+  border:1px solid var(--border); border-radius:4px; vertical-align:middle;
+  position:relative; top:-1px; background:#fff;
+}
+.ofertas-checkbox:checked{
+  background:var(--primary);
+  border-color:var(--primary);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+.ofertas-applied{ margin-top:10px; font-size:12px; color:var(--muted); }
+
+/* ====== Header listado ====== */
+.ofertas-header{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:2px; margin-bottom:10px;
+}
+.ofertas-title{ margin:0; font-size:18px; font-weight:700; }
+.ofertas-page-size{ display:flex; align-items:center; gap:8px; }
+.ofertas-page-size select{
+  border:1px solid var(--border); border-radius:8px; padding:6px 10px; background:#fff;
+}
+
+/* ====== Cards ====== */
+.oferta-card{
+  background:var(--primary-50);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin-bottom:14px;
+}
+.oferta-card__top{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:6px;
+}
+.oferta-left{
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.oferta-badge{
+  font-size:12px; font-weight:700;
+  color:#0b3ea7;
+  background:#dbe8ff;
+  padding:2px 8px; border-radius:6px;
+}
+.oferta-title{
+  font-size:16px; font-weight:700; color:#0b3e91;
+}
+.oferta-vermas{
+  background:var(--white);
+  color:var(--primary);
+  border:1px solid #cfe0ff;
+  border-radius:8px;
+  padding:6px 12px;
+  font-weight:600;
+  cursor:pointer;
+}
+.oferta-vermas:hover{
+  border-color:var(--primary);
+}
+
+.oferta-desc{
+  color:var(--muted);
+  margin:6px 0 8px;
+  line-height:1.45;
+}
+.oferta-meta{
+  font-size:14px; color:#374151;
+}
+
+/* ====== Paginación ====== */
+.ofertas-pagination{
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  margin:12px 0 4px;
+  color:#6b7280;
+}
+.ofertas-page-btn{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:6px 12px;
+  cursor:pointer;
+}
+.ofertas-page-btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+/* ====== “Resultados por página” a la derecha ====== */
+.results-right{
+  display:flex; align-items:center; gap:6px; color:#6b7280; font-size:14px;
+}
+
+/* ====== Utilidades ====== */
+.mt-12{ margin-top:12px; }
+.ofertas-input,
+.ofertas-select {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--text);   /* <-- fuerza texto oscuro */
+}
+
+.ofertas-input::placeholder {
+  color: #9ca3af;       /* <-- placeholder gris claro */
+}
+/* Fuerza todas las fuentes a negro */
+body, 
+button, 
+input, 
+select, 
+textarea, 
+label, 
+p, 
+span, 
+div, 
+h1, h2, h3, h4, h5, h6 {
+  color: #000 !important;
+}

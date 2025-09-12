@@ -24,6 +24,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
+    /** No aplicar el filtro en rutas públicas ni en preflights CORS */
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String p = request.getServletPath();
+        String m = request.getMethod();
+        // Preflight
+        if ("OPTIONS".equalsIgnoreCase(m)) return true;
+
+        // Rutas públicas (ajusta si agregas/quitas)
+        return p.equals("/favicon.ico")
+                || p.startsWith("/auth/")
+                || p.equals("/hello")
+                || p.startsWith("/h2-console")
+                || p.startsWith("/actuator/health")
+                || p.startsWith("/v3/api-docs")
+                || p.startsWith("/swagger-ui")    // ojo: swagger UI real es /swagger-ui/**
+                || p.equals("/swagger-ui.html")
+                || p.startsWith("/api/ofertas");  // <-- listado/detalle de ofertas público
+    }
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -31,18 +51,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String uri = request.getRequestURI();
-        // Deja pasar swagger, openapi, h2, auth, actuator, dev SIN exigir token
-        if (uri.startsWith("/swagger") || uri.startsWith("/v3/api-docs")
-                || uri.startsWith("/h2-console") || uri.startsWith("/auth")
-                || uri.startsWith("/actuator/health") || uri.startsWith("/dev")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
+        // Si shouldNotFilter() devolvió false, entonces sí filtramos (rutas protegidas)
         String header = request.getHeader("Authorization");
+
+        // Si no viene Bearer, no autenticamos pero dejamos seguir; el SecurityConfig decidirá (401/permitAll)
         if (header == null || !header.startsWith("Bearer ")) {
-            // Sin token -> no autentica, pero deja pasar (los endpoints públicos funcionarán)
             filterChain.doFilter(request, response);
             return;
         }
@@ -62,6 +75,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             // Token inválido/expirado -> 401 (no 500)
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // opcional: un body simple
+            // response.setContentType("application/json");
+            // response.getWriter().write("{\"error\":\"unauthorized\"}");
         }
     }
 }
