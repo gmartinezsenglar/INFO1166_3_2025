@@ -7,7 +7,11 @@ import com.bne.postulaciones_service.domain.repository.PostulacionRepository;
 import com.bne.postulaciones_service.domain.repository.UsuarioRepository;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
+@Service
+@Transactional(readOnly = true)
 public class ListarPostulacionesPorUsuarioUseCase {
     private final PostulacionRepository postulacionRepository;
     private final UsuarioRepository usuarioRepository;
@@ -17,13 +21,8 @@ public class ListarPostulacionesPorUsuarioUseCase {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<Postulacion> ejecutar(String usuarioId) {
-        // Validar que el usuario existe
-        if (!usuarioRepository.findById(usuarioId)) {
-            throw new NotFoundException("Usuario no encontrado");
-        }
-
-        // Obtener las postulaciones del usuario
+    public List<Postulacion> ejecutar(Long usuarioId) {
+        usuarioRepository.findById(usuarioId).orElseThrow(()->new NotFoundException("Usuario no encontrado"));
         return postulacionRepository.findByUsuarioId(usuarioId);
     }
 
