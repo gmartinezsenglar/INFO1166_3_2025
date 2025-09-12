@@ -15,7 +15,7 @@ public class Ubicacion {
     private String ciudad;
 
     public boolean esValida() {
-        return region != null && !region.isBlank() &&
-                ciudad != null && !ciudad.isBlank();
+        return region != null && !region.isBlank()
+                && ciudad != null && !ciudad.isBlank();
     }
 }

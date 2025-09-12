@@ -40,17 +40,12 @@ public class OfertaBNE {
     private PeriodoVigencia periodoVigencia;
 
     private boolean requiereExperiencia;
-
     private boolean requiereNivelEducacional;
 
     private String tipoNivelEducacional;
-
     private String tipoContrato;
-
     private String tipoJornada;
-
     private String nivelCargo;
-
     private String origenOferta;
 
     @Column(name = "practica_profesional")
@@ -59,8 +54,7 @@ public class OfertaBNE {
     @Column(name = "ley_21015")
     private boolean ley21015;
 
-    // --- Métodos de comportamiento útiles ---
-
+    // --- Comportamiento de dominio ---
     public boolean estaVigente() {
         return periodoVigencia != null && periodoVigencia.estaVigente();
     }
@@ -81,7 +75,7 @@ public class OfertaBNE {
     }
 
     public boolean rangoSalarialValido() {
-        if (rangoSalarial.getMinimo() == null || rangoSalarial.getMaximo() == null) return true;
+        if (rangoSalarial == null || rangoSalarial.getMinimo() == null || rangoSalarial.getMaximo() == null) return true;
         return rangoSalarial.getMinimo() <= rangoSalarial.getMaximo();
     }
 
@@ -94,14 +88,15 @@ public class OfertaBNE {
     }
 
     public boolean fechasValidas() {
-        if (periodoVigencia.getFechaInicio() == null || periodoVigencia.getFechaTermino() == null) return true;
+        if (periodoVigencia == null || periodoVigencia.getFechaInicio() == null || periodoVigencia.getFechaTermino() == null) return true;
         return !periodoVigencia.getFechaInicio().isAfter(periodoVigencia.getFechaTermino());
     }
-    
+
     public boolean datosBasicosCompletos() {
         return nombre != null && !nombre.isBlank()
-        && descripcion != null && !descripcion.isBlank()
-        && ubicacion.getRegion() != null && !ubicacion.getRegion().isBlank()
-        && ubicacion.getCiudad() != null && !ubicacion.getCiudad().isBlank();
+                && descripcion != null && !descripcion.isBlank()
+                && ubicacion != null
+                && ubicacion.getRegion() != null && !ubicacion.getRegion().isBlank()
+                && ubicacion.getCiudad() != null && !ubicacion.getCiudad().isBlank();
     }
 }

@@ -21,6 +21,7 @@
         <java.version>21</java.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <jjwt.version>0.12.5</jjwt.version>
+        <lombok.version>1.18.34</lombok.version>
 
         <!-- Fuerza UTF-8 en build y reporting -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -102,11 +103,12 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-        <!-- Utilidades -->
+        <!-- Lombok (para getters/setters/builder). 'provided' evita empacarlo en el jar -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test -->
@@ -137,16 +139,19 @@
 
     <build>
         <plugins>
-            <!-- Compilación Java 21 -->
+            <!-- Compilación Java 21 + annotation processing de Lombok -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
                 <configuration>
                     <release>${java.version}</release>
+                    <parameters>true</parameters>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

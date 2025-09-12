@@ -47,30 +47,30 @@ public class DetalleOfertaUseCase {
         }
 
         String ciudad = Optional.ofNullable(oferta.getUbicacion())
-                                .filter(u -> u.esValida())
-                                .map(u -> u.getCiudad())
-                                .orElse("Sin ciudad");
+                .filter(u -> u.esValida())
+                .map(u -> u.getCiudad())
+                .orElse("Sin ciudad");
 
         String region = Optional.ofNullable(oferta.getUbicacion())
-                                .filter(u -> u.esValida())
-                                .map(u -> u.getRegion())
-                                .orElse("Sin región");
+                .filter(u -> u.esValida())
+                .map(u -> u.getRegion())
+                .orElse("Sin región");
 
         Integer minimo = Optional.ofNullable(oferta.getRangoSalarial())
-                                 .map(r -> r.getMinimo())
-                                 .orElse(null);
+                .map(r -> r.getMinimo())
+                .orElse(null);
 
         Integer maximo = Optional.ofNullable(oferta.getRangoSalarial())
-                                 .map(r -> r.getMaximo())
-                                 .orElse(null);
+                .map(r -> r.getMaximo())
+                .orElse(null);
 
         LocalDate fechaInicio = Optional.ofNullable(oferta.getPeriodoVigencia())
-                                        .map(p -> p.getFechaInicio())
-                                        .orElse(null);
+                .map(p -> p.getFechaInicio())
+                .orElse(null);
 
         LocalDate fechaFin = Optional.ofNullable(oferta.getPeriodoVigencia())
-                                     .map(p -> p.getFechaTermino())
-                                     .orElse(null);
+                .map(p -> p.getFechaTermino())
+                .orElse(null);
 
         return new DetalleOfertaBneDto(
                 oferta.getId(),
@@ -105,38 +105,20 @@ public class DetalleOfertaUseCase {
             throw new NotFoundException("La oferta externa con id " + id + " no es publicable");
         }
 
-        String ciudad = Optional.ofNullable(oferta.getUbicacion())
-                                .filter(u -> u.esValida())
-                                .map(u -> u.getCiudad())
-                                .orElse("Sin ciudad");
+        String ciudad = (oferta.getUbicacion() != null && oferta.getUbicacion().esValida())
+                ? oferta.getUbicacion().getCiudad() : "Sin ciudad";
 
-        String region = Optional.ofNullable(oferta.getUbicacion())
-                                .filter(u -> u.esValida())
-                                .map(u -> u.getRegion())
-                                .orElse("Sin región");
+        String region = (oferta.getUbicacion() != null && oferta.getUbicacion().esValida())
+                ? oferta.getUbicacion().getRegion() : "Sin región";
 
-        Integer minimo = Optional.ofNullable(oferta.getRangoSalarial())
-                                 .map(r -> r.getMinimo())
-                                 .orElse(null);
+        Integer minimo = (oferta.getRangoSalarial() != null) ? oferta.getRangoSalarial().getMinimo() : null;
+        Integer maximo = (oferta.getRangoSalarial() != null) ? oferta.getRangoSalarial().getMaximo() : null;
 
-        Integer maximo = Optional.ofNullable(oferta.getRangoSalarial())
-                                 .map(r -> r.getMaximo())
-                                 .orElse(null);
+        var periodo = oferta.getPeriodoVigencia();
+        var fechaInicio = (periodo != null) ? periodo.getFechaInicio() : null;
+        var fechaFin = (periodo != null) ? periodo.getFechaTermino() : null;
 
-        LocalDate fechaInicio = Optional.ofNullable(oferta.getPeriodoVigencia())
-                                        .map(p -> p.getFechaInicio())
-                                        .orElse(null);
-
-        LocalDate fechaFin = Optional.ofNullable(oferta.getPeriodoVigencia())
-                                     .map(p -> p.getFechaTermino())
-                                     .orElse(null);
-
-        String urlFuente = Optional.ofNullable(oferta.getUrlFuente())
-                                   .map(Enum::name)
-                                   .orElse(null);
-
-        String nombrePublicador = Optional.ofNullable(oferta.getNombrePublicador())
-                                          .orElse(null);
+        String urlFuente = oferta.getUrlFuente();
 
         return new DetalleOfertaExternaDto(
                 oferta.getId(),
@@ -151,7 +133,7 @@ public class DetalleOfertaUseCase {
                 maximo,
                 fechaInicio,
                 fechaFin,
-                nombrePublicador,
+                oferta.getNombrePublicador(),
                 oferta.requiereExperienciaLaboral(),
                 oferta.getTipoNivelEducacional(),
                 oferta.getTipoContrato(),

@@ -19,7 +19,7 @@ public class PeriodoVigencia {
     public boolean estaVigente() {
         if (fechaInicio == null || fechaTermino == null) return false;
         LocalDate hoy = LocalDate.now();
-        return (hoy.isEqual(fechaInicio) || hoy.isAfter(fechaInicio)) &&
-                (hoy.isEqual(fechaTermino) || hoy.isBefore(fechaTermino));
+        return (hoy.isEqual(fechaInicio) || hoy.isAfter(fechaInicio))
+                && (hoy.isEqual(fechaTermino) || hoy.isBefore(fechaTermino));
     }
 }

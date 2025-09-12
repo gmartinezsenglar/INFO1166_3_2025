@@ -1,19 +1,10 @@
 package com.bne.postulaciones_service.application.dto;
 
-import com.bne.postulaciones_service.domain.model.vo.PeriodoVigencia;
-import com.bne.postulaciones_service.domain.model.vo.RangoSalarial;
-import com.bne.postulaciones_service.domain.model.vo.Ubicacion;
 import lombok.*;
-
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class DetalleOfertaBneDto {
-
     private Long id;
     private Long empresaId;
     private String nombreEmpresa;
@@ -21,9 +12,9 @@ public class DetalleOfertaBneDto {
     private String descripcion;
     private Integer vacantesDisponibles;
     private String ciudad;
-    private String región;
-    private int minimoSalarial;
-    private int maximoSalarial;
+    private String region; // <— renombrado
+    private Integer minimoSalarial;
+    private Integer maximoSalarial;
     private LocalDate fechaInicioVigencia;
     private LocalDate fechaTerminoVigencia;
     private boolean requiereExperiencia;

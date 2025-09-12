@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Usuario {
 
     @Id
@@ -41,7 +40,6 @@ public class Usuario {
 
     public String nombreCompleto() {
         return (nombres != null ? nombres : "") + " " +
-               (apellidos != null ? apellidos : "");
+                (apellidos != null ? apellidos : "");
     }
-
 }

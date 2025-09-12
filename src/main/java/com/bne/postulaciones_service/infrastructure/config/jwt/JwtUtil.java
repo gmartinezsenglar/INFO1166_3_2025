@@ -33,4 +33,8 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+    public String getUsername(String token) {
+        return validateAndGetClaims(token).getSubject();
+    }
+
 }

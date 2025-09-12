@@ -7,6 +7,9 @@ import com.bne.postulaciones_service.domain.model.vo.OfertaId;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class PostulacionDomainService {
 
     public Postulacion crearPostulacion(Usuario usuario, OfertaBNE oferta) {

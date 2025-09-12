@@ -6,10 +6,6 @@ import com.bne.postulaciones_service.domain.model.vo.Ubicacion;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "ofertas_externas")
 @Getter
@@ -46,15 +42,11 @@ public class OfertaExterna {
     private String nombrePublicador;
 
     private boolean requiereExperiencia;
-
     private boolean requiereNivelEducacional;
 
     private String tipoNivelEducacional;
-
     private String tipoContrato;
-
     private String tipoJornada;
-
     private String nivelCargo;
 
     private String origenOferta;
@@ -65,8 +57,7 @@ public class OfertaExterna {
     @Column(name = "url_fuente")
     private String urlFuente;
 
-    // --- Métodos de comportamiento útiles ---
-
+    // --- Comportamiento de dominio ---
     public boolean estaVigente() {
         return periodoVigencia != null && periodoVigencia.estaVigente();
     }
@@ -83,7 +74,7 @@ public class OfertaExterna {
     }
 
     public boolean rangoSalarialValido() {
-        if (rangoSalarial.getMinimo() == null || rangoSalarial.getMaximo() == null) return true;
+        if (rangoSalarial == null || rangoSalarial.getMinimo() == null || rangoSalarial.getMaximo() == null) return true;
         return rangoSalarial.getMinimo() <= rangoSalarial.getMaximo();
     }
 
@@ -93,9 +84,10 @@ public class OfertaExterna {
 
     public boolean datosBasicosCompletos() {
         return nombre != null && !nombre.isBlank()
-            && descripcion != null && !descripcion.isBlank()
-            && ubicacion.getRegion() != null && !ubicacion.getRegion().isBlank()
-            && ubicacion.getCiudad() != null && !ubicacion.getCiudad().isBlank();
+                && descripcion != null && !descripcion.isBlank()
+                && ubicacion != null
+                && ubicacion.getRegion() != null && !ubicacion.getRegion().isBlank()
+                && ubicacion.getCiudad() != null && !ubicacion.getCiudad().isBlank();
     }
 
     public boolean tieneNombrePublicador() {
@@ -108,9 +100,9 @@ public class OfertaExterna {
 
     public boolean tipoJornadaValida() {
         return tipoJornada != null && (
-            tipoJornada.equalsIgnoreCase("COMPLETA") ||
-            tipoJornada.equalsIgnoreCase("PART_TIME") ||
-            tipoJornada.equalsIgnoreCase("POR_TURNOS")
+                tipoJornada.equalsIgnoreCase("COMPLETA") ||
+                        tipoJornada.equalsIgnoreCase("PART_TIME") ||
+                        tipoJornada.equalsIgnoreCase("POR_TURNOS")
         );
     }
 
@@ -125,18 +117,18 @@ public class OfertaExterna {
 
     public boolean tipoContratoValido() {
         return tipoContrato != null && (
-            tipoContrato.equalsIgnoreCase("PLAZO_FIJO") ||
-            tipoContrato.equalsIgnoreCase("INDEFINIDO") ||
-            tipoContrato.equalsIgnoreCase("HONORARIOS")
+                tipoContrato.equalsIgnoreCase("PLAZO_FIJO") ||
+                        tipoContrato.equalsIgnoreCase("INDEFINIDO") ||
+                        tipoContrato.equalsIgnoreCase("HONORARIOS")
         );
     }
 
     public boolean nivelCargoValido() {
         return nivelCargo != null && (
-            nivelCargo.equalsIgnoreCase("OPERARIO") ||
-            nivelCargo.equalsIgnoreCase("TECNICO") ||
-            nivelCargo.equalsIgnoreCase("PROFESIONAL") ||
-            nivelCargo.equalsIgnoreCase("EJECUTIVO")
+                nivelCargo.equalsIgnoreCase("OPERARIO") ||
+                        nivelCargo.equalsIgnoreCase("TECNICO") ||
+                        nivelCargo.equalsIgnoreCase("PROFESIONAL") ||
+                        nivelCargo.equalsIgnoreCase("EJECUTIVO")
         );
     }
 

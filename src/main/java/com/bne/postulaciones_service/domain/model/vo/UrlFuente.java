@@ -1,4 +1,4 @@
-package com.bne.postulaciones.domain.model.vo;
+package com.bne.postulaciones_service.domain.model.vo;
 
 import java.net.MalformedURLException;
 import java.net.URL;

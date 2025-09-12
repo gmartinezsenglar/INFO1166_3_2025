@@ -1,8 +1,8 @@
 package com.bne.postulaciones_service.infrastructure.config;
 
 import com.bne.postulaciones_service.infrastructure.config.jwt.JwtAuthFilter;
-import com.bne.postulaciones_service.infrastructure.config.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,43 +13,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtUtil jwtUtil;
 
-    public SecurityConfig(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/hello",
+                                "/swagger", "/swagger/**",
+                                "/v3/api-docs/**",
                                 "/auth/**",
-                                // Swagger / OpenAPI
-                                "/swagger", "/swagger/**", "/swagger-ui/**", "/v3/api-docs/**",
-                                // Infra abierta
                                 "/h2-console/**",
                                 "/actuator/health",
-                                "/dev/**" //probar sin el tocen
+                                "/dev/**"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
                 )
-                // H2 console necesita frames (same origin)
                 .headers(h -> h.frameOptions(f -> f.sameOrigin()))
-                // 401 cuando falta/vence el token (en vez de 403)
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((req, res, ex) ->
                                 res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 )
-                // Evitar Basic/Form por defecto
                 .httpBasic(b -> b.disable())
                 .formLogin(f -> f.disable())
-                // Filtro JWT antes del de username/password
-                .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }

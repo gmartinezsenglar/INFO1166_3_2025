@@ -39,15 +39,15 @@ public class Postulacion {
     }
 
     public void enviar() {
-        this.estado=EstadoPostulacion.ENVIADA;
-        this.fechaPostulacion=LocalDate.now();
+        this.estado = EstadoPostulacion.ENVIADA;
+        this.fechaPostulacion = LocalDate.now();
     }
 
     public void cambiarEstado(EstadoPostulacion nuevoEstado) {
         if (this.estado == EstadoPostulacion.RETIRADA) {
             throw new IllegalStateException("No se puede modificar una postulación retirada.");
         }
-        this.estado=nuevoEstado;
+        this.estado = nuevoEstado;
     }
 
     public boolean fueAceptada() {
@@ -59,6 +59,6 @@ public class Postulacion {
     }
 
     public boolean perteneceAUsuario(Long usuarioId) {
-        return this.usuarioId.equals(usuarioId);
+        return this.usuarioId != null && this.usuarioId.equals(usuarioId);
     }
 }

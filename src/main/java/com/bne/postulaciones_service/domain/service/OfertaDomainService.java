@@ -4,6 +4,9 @@ import com.bne.postulaciones_service.domain.model.OfertaBNE;
 import com.bne.postulaciones_service.domain.model.OfertaExterna;
 import com.bne.postulaciones_service.domain.event.OfertaCerrada;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class OfertaDomainService{
 
     public boolean esPublicable(OfertaBNE oferta){
