@@ -70,7 +70,7 @@ public class OfertaBNE {
     }
 
     public void reducirVacante() {
-        if (!tieneVacantes()) {
+        if (!tieneVacantesDisponibles()) {
             throw new IllegalStateException("No hay vacantes disponibles.");
         }
         this.vacantesDisponibles--;
@@ -81,8 +81,8 @@ public class OfertaBNE {
     }
 
     public boolean rangoSalarialValido() {
-        if (pagaMinima == null || pagaMaxima == null) return true;
-        return pagaMinima <= pagaMaxima;
+        if (rangoSalarial.getMinimo() == null || rangoSalarial.getMaximo() == null) return true;
+        return rangoSalarial.getMinimo() <= rangoSalarial.getMaximo();
     }
 
     public boolean requiereExperiencia() {
@@ -94,14 +94,14 @@ public class OfertaBNE {
     }
 
     public boolean fechasValidas() {
-        if (fechaInicio == null || fechaTermino == null) return true;
-        return !fechaInicio.isAfter(fechaTermino);
+        if (periodoVigencia.getFechaInicio() == null || periodoVigencia.getFechaTermino() == null) return true;
+        return !periodoVigencia.getFechaInicio().isAfter(periodoVigencia.getFechaTermino());
     }
     
     public boolean datosBasicosCompletos() {
         return nombre != null && !nombre.isBlank()
         && descripcion != null && !descripcion.isBlank()
-        && region != null && !region.isBlank()
-        && ciudad != null && !ciudad.isBlank();
+        && ubicacion.getRegion() != null && !ubicacion.getRegion().isBlank()
+        && ubicacion.getCiudad() != null && !ubicacion.getCiudad().isBlank();
     }
 }
