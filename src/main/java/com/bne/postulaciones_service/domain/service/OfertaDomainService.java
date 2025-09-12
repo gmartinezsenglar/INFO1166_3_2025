@@ -1,0 +1,35 @@
+package com.bne.postulaciones_service.domain.service;
+
+import com.bne.postulaciones_service.domain.model.OfertaBNE;
+import com.bne.postulaciones_service.domain.model.OfertaExterna;
+import com.bne.postulaciones_service.domain.event.OfertaCerrada;
+
+public class OfertaDomainService{
+
+    public boolean esPublicable(OfertaBNE oferta){
+        return oferta.datosBasicosCompletos() &&
+               oferta.rangoSalarialValido() &&
+               oferta.estaVigente();
+    }
+
+    public boolean esPublicable(OfertaExterna oferta){
+        return oferta.datosBasicosCompletos() &&
+               oferta.rangoSalarialValido() &&
+               oferta.urlFuenteValida() &&
+               oferta.estaVigente();
+    }
+
+    public OfertaCerrada cerrarOfertaSiCorresponde(OfertaBNE oferta) {
+        if (!oferta.estaVigente() || !oferta.tieneVacantes()) {
+            return new OfertaCerrada(oferta.getId());
+        }
+        return null;
+    }
+
+    public OfertaCerrada cerrarOfertaSiCorresponde(OfertaExterna oferta) {
+        if (!oferta.estaVigente() || !oferta.tieneVacantes()) {
+            return new OfertaCerrada(oferta.getId());
+        }
+        return null;
+    }
+}

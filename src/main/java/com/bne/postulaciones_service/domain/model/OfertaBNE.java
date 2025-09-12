@@ -69,7 +69,39 @@ public class OfertaBNE {
         return vacantesDisponibles != null && vacantesDisponibles > 0;
     }
 
+    public void reducirVacante() {
+        if (!tieneVacantes()) {
+            throw new IllegalStateException("No hay vacantes disponibles.");
+        }
+        this.vacantesDisponibles--;
+    }
+
     public boolean esPracticaProfesional() {
         return practicaProfesional;
+    }
+
+    public boolean rangoSalarialValido() {
+        if (pagaMinima == null || pagaMaxima == null) return true;
+        return pagaMinima <= pagaMaxima;
+    }
+
+    public boolean requiereExperiencia() {
+        return this.requiereExperiencia;
+    }
+
+    public boolean requiereNivelEducacional() {
+        return this.requiereNivelEducacional;
+    }
+
+    public boolean fechasValidas() {
+        if (fechaInicio == null || fechaTermino == null) return true;
+        return !fechaInicio.isAfter(fechaTermino);
+    }
+    
+    public boolean datosBasicosCompletos() {
+        return nombre != null && !nombre.isBlank()
+        && descripcion != null && !descripcion.isBlank()
+        && region != null && !region.isBlank()
+        && ciudad != null && !ciudad.isBlank();
     }
 }
